@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <title>Daganganku POS</title>
+  
+  <!-- Pengaturan Standalone PWA -->
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="theme-color" content="#0f172a">
+
+  <!-- Manifest PWA -->
+  <link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Daganganku%20POS%22%2C%22short_name%22%3A%22Daganganku%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%230f172a%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fimages.unsplash.com%2Fphoto-1541544741938-0af808871cc0%3Fw%3D192%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #0f172a; }
+    iframe { width: 100%; height: 100%; border: none; display: block; }
+  </style>
+</head>
+<body>
+  <!-- GANTI LINK DI BAWAH INI DENGAN LINK GOOGLE APPS SCRIPT ANDA -->
+  <iframe 
+    src="https://script.google.com/macros/s/AKfycbwZdocawdPBMl1Y4wNqHlW4SIQRKRT4ReUjECDoS1vf-W1eYxReNBbVcK6Ug5NXsyCmzg/exec" 
+    allow="fullscreen; camera; microphone; clipboard-read; clipboard-write;">
+  </iframe>
+
+  <script>
+    // Daftarkan service worker agar Chrome memunculkan tombol "Instal Aplikasi"
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+</body>
+</html>
