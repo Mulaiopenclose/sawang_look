@@ -5,32 +5,77 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <title>Daganganku POS</title>
   
-  <!-- Pengaturan Standalone PWA -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="theme-color" content="#0f172a">
 
-  <!-- Manifest PWA -->
-  <link rel="manifest" href="data:application/manifest+json;charset=utf-8,%7B%22name%22%3A%22Daganganku%20POS%22%2C%22short_name%22%3A%22Daganganku%22%2C%22start_url%22%3A%22.%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%230f172a%22%2C%22theme_color%22%3A%22%230f172a%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22https%3A%2F%2Fimages.unsplash.com%2Fphoto-1541544741938-0af808871cc0%3Fw%3D192%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fpng%22%7D%5D%7D">
+  <!-- Hubungkan ke file manifest.json -->
+  <link rel="manifest" href="manifest.json">
 
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html, body { width: 100%; height: 100%; overflow: hidden; background: #0f172a; }
+    html, body { width: 100%; height: 100%; overflow: hidden; background: #0f172a; position: relative; }
     iframe { width: 100%; height: 100%; border: none; display: block; }
+    
+    /* Tombol Pasang Aplikasi Otomatis */
+    .btn-instal-pwa {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ea580c;
+      color: #ffffff;
+      padding: 12px 18px;
+      border-radius: 50px;
+      font-weight: bold;
+      font-size: 14px;
+      border: 2px solid #ffffff;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.4);
+      z-index: 999999;
+      cursor: pointer;
+    }
   </style>
 </head>
 <body>
-  <!-- GANTI LINK DI BAWAH INI DENGAN LINK GOOGLE APPS SCRIPT ANDA -->
+
+  <!-- TOMBOL INSTALL OTOMATIS -->
+  <button id="btnInstalApp" class="btn-instal-pwa" onclick="jalankanInstalasi()">
+    📲 Pasang Aplikasi Kasir
+  </button>
+
+  <!-- GANTI LINK DI BAWAH DENGAN LINK WEB APP ANDA -->
   <iframe 
-    src="https://script.google.com/macros/s/AKfycbwZdocawdPBMl1Y4wNqHlW4SIQRKRT4ReUjECDoS1vf-W1eYxReNBbVcK6Ug5NXsyCmzg/exec" 
+    src="TEMPEL_LINK_EXEC_GOOGLE_APPS_SCRIPT_ANDA_DI_SINI" 
     allow="fullscreen; camera; microphone; clipboard-read; clipboard-write;">
   </iframe>
 
   <script>
-    // Daftarkan service worker agar Chrome memunculkan tombol "Instal Aplikasi"
+    // 1. Daftarkan Service Worker
     if ('serviceWorker' in navigator) {
       navigator.serviceWorker.register('sw.js');
+    }
+
+    // 2. Tangkap event instalasi Chrome
+    let promptInstalasi;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      promptInstalasi = e;
+      // Tampilkan tombol pasang di layar
+      const btn = document.getElementById('btnInstalApp');
+      if (btn) btn.style.display = 'block';
+    });
+
+    function jalankanInstalasi() {
+      if (promptInstalasi) {
+        promptInstalasi.prompt();
+        promptInstalasi.userChoice.then((hasil) => {
+          if (hasil.outcome === 'accepted') {
+            document.getElementById('btnInstalApp').style.display = 'none';
+          }
+          promptInstalasi = null;
+        });
+      }
     }
   </script>
 </body>
